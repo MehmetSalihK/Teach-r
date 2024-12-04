@@ -8,9 +8,10 @@ interface ProductFormProps {
     product?: Product;
     onClose: () => void;
     categories: Category[];
+    onSubmit: (productData: Partial<Product>) => Promise<void>;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, categories }) => {
+const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, categories, onSubmit }) => {
     const dispatch = useDispatch<AppDispatch>();
     const [error, setError] = useState<string | null>(null);
     const [formData, setFormData] = useState({
@@ -47,14 +48,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onClose, categories 
                 category: selectedCategory
             };
 
-            if (product) {
-                await dispatch(updateProduct({
-                    id: product.id,
-                    data: productData
-                })).unwrap();
-            } else {
-                await dispatch(createProduct(productData)).unwrap();
-            }
+            await onSubmit(productData);
             onClose();
         } catch (error) {
             console.error('Erreur:', error);

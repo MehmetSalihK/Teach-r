@@ -44,3 +44,8 @@ export interface AuthState {
     error: string | null;
     isAuthenticated: boolean;
 }
+
+export interface AuthResponse {
+    user: User;
+    token: string;
+}

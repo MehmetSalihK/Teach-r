@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { register } from '../../store/authSlice';
 import { AppDispatch } from '../../store/store';
 import { FiUser, FiMail, FiLock, FiEye, FiEyeOff } from 'react-icons/fi';
+import { motion } from 'framer-motion';
 
 const Register: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -72,7 +73,11 @@ const Register: React.FC = () => {
 
         setLoading(true);
         try {
-            await dispatch(register(formData)).unwrap();
+            const registrationData = {
+                ...formData,
+                name: `${formData.firstName} ${formData.lastName}`
+            };
+            await dispatch(register(registrationData)).unwrap();
             navigate('/login', { 
                 state: { message: 'Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.' }
             });
@@ -87,24 +92,74 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#1a1d24] flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-md bg-[#22252d] rounded-3xl p-8 shadow-xl">
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-[#7c3aed] mb-2">Teach'r</h1>
-                    <h2 className="text-2xl font-semibold text-white mb-2">Créer un compte</h2>
-                    <p className="text-gray-400 text-sm">
+        <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            className="min-h-screen bg-[#1a1d24] flex flex-col items-center justify-center p-4"
+        >
+            <motion.div 
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.2 }}
+                className="w-full max-w-md bg-[#22252d] rounded-3xl p-8 shadow-xl"
+            >
+                <motion.div 
+                    initial={{ y: 20, opacity: 0 }} 
+                    animate={{ y: 0, opacity: 1 }} 
+                    transition={{ delay: 0.3 }}
+                    className="text-center mb-8"
+                >
+                    <motion.h1 
+                        initial={{ scale: 0.9 }} 
+                        animate={{ scale: 1 }} 
+                        transition={{ delay: 0.4 }}
+                        className="text-4xl font-bold text-[#7c3aed] mb-2"
+                    >
+                        Teach'r
+                    </motion.h1>
+                    <motion.h2 
+                        initial={{ y: 20, opacity: 0 }} 
+                        animate={{ y: 0, opacity: 1 }} 
+                        transition={{ delay: 0.5 }}
+                        className="text-2xl font-semibold text-white mb-2"
+                    >
+                        Créer un compte
+                    </motion.h2>
+                    <motion.p 
+                        initial={{ y: 20, opacity: 0 }} 
+                        animate={{ y: 0, opacity: 1 }} 
+                        transition={{ delay: 0.6 }}
+                        className="text-gray-400 text-sm"
+                    >
                         Rejoignez notre communauté d'apprentissage
-                    </p>
-                </div>
+                    </motion.p>
+                </motion.div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <motion.form 
+                    initial={{ y: 20, opacity: 0 }} 
+                    animate={{ y: 0, opacity: 1 }} 
+                    transition={{ delay: 0.7 }}
+                    onSubmit={handleSubmit} 
+                    className="space-y-6"
+                >
                     {errors.general && (
-                        <div className="p-4 bg-[#2a2d35] rounded-xl text-red-400 text-sm">
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            className="p-4 bg-[#2a2d35] rounded-xl text-red-400 text-sm"
+                        >
                             {errors.general}
-                        </div>
+                        </motion.div>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <motion.div 
+                        initial={{ x: -20, opacity: 0 }} 
+                        animate={{ x: 0, opacity: 1 }} 
+                        transition={{ delay: 0.8 }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    >
                         <div>
                             <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
                                 Prénom
@@ -152,131 +207,143 @@ const Register: React.FC = () => {
                                 <p className="mt-2 text-sm text-red-400">{errors.lastName}</p>
                             )}
                         </div>
-                    </div>
+                    </motion.div>
 
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                            Email
-                        </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FiMail className="h-5 w-5 text-gray-400" />
+                    <motion.div 
+                        initial={{ x: -20, opacity: 0 }} 
+                        animate={{ x: 0, opacity: 1 }} 
+                        transition={{ delay: 0.9 }}
+                        className="space-y-6"
+                    >
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                                Email
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FiMail className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="block w-full pl-10 pr-3 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
+                                    placeholder="votreemail@exemple.com"
+                                />
                             </div>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                required
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="block w-full pl-10 pr-3 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
-                                placeholder="votreemail@exemple.com"
-                            />
+                            {errors.email && (
+                                <p className="mt-2 text-sm text-red-400">{errors.email}</p>
+                            )}
                         </div>
-                        {errors.email && (
-                            <p className="mt-2 text-sm text-red-400">{errors.email}</p>
-                        )}
-                    </div>
 
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                            Mot de passe
-                        </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FiLock className="h-5 w-5 text-gray-400" />
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                                Mot de passe
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FiLock className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    autoComplete="new-password"
+                                    required
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="block w-full pl-10 pr-10 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
+                                    placeholder="Votre mot de passe"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? (
+                                        <FiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                                    ) : (
+                                        <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                                    )}
+                                </button>
                             </div>
-                            <input
-                                id="password"
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                autoComplete="new-password"
-                                required
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="block w-full pl-10 pr-10 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
-                                placeholder="Votre mot de passe"
-                            />
-                            <button
-                                type="button"
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? (
-                                    <FiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                                ) : (
-                                    <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                                )}
-                            </button>
+                            {errors.password && (
+                                <p className="mt-2 text-sm text-red-400">{errors.password}</p>
+                            )}
                         </div>
-                        {errors.password && (
-                            <p className="mt-2 text-sm text-red-400">{errors.password}</p>
-                        )}
-                    </div>
 
-                    <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
-                            Confirmer le mot de passe
-                        </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FiLock className="h-5 w-5 text-gray-400" />
+                        <div>
+                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+                                Confirmer le mot de passe
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FiLock className="h-5 w-5 text-gray-400" />
+                                </div>
+                                <input
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    autoComplete="new-password"
+                                    required
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    className="block w-full pl-10 pr-10 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
+                                    placeholder="Confirmez votre mot de passe"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? (
+                                        <FiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                                    ) : (
+                                        <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                                    )}
+                                </button>
                             </div>
-                            <input
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                type={showConfirmPassword ? "text" : "password"}
-                                autoComplete="new-password"
-                                required
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                className="block w-full pl-10 pr-10 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
-                                placeholder="Confirmez votre mot de passe"
-                            />
-                            <button
-                                type="button"
-                                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            >
-                                {showConfirmPassword ? (
-                                    <FiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                                ) : (
-                                    <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
-                                )}
-                            </button>
+                            {errors.confirmPassword && (
+                                <p className="mt-2 text-sm text-red-400">{errors.confirmPassword}</p>
+                            )}
                         </div>
-                        {errors.confirmPassword && (
-                            <p className="mt-2 text-sm text-red-400">{errors.confirmPassword}</p>
-                        )}
-                    </div>
+                    </motion.div>
 
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full flex justify-center py-3 px-4 text-sm font-medium rounded-xl text-white bg-[#7c3aed] hover:bg-[#6d31e0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3aed] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                        >
-                            {loading ? (
-                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            ) : "Créer un compte"}
-                        </button>
-                    </div>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        type="submit"
+                        disabled={loading}
+                        className="w-full flex justify-center py-3 px-4 text-sm font-medium rounded-xl text-white bg-[#7c3aed] hover:bg-[#6d31e0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3aed] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                    >
+                        {loading ? (
+                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        ) : "Créer un compte"}
+                    </motion.button>
 
-                    <div className="text-center mt-6">
+                    <motion.div 
+                        initial={{ opacity: 0 }} 
+                        animate={{ opacity: 1 }} 
+                        transition={{ delay: 0.9 }}
+                        className="text-center mt-6"
+                    >
                         <p className="text-sm text-gray-400">
                             Déjà un compte ?{' '}
                             <Link to="/login" className="font-medium text-[#7c3aed] hover:text-[#9461ff]">
                                 Se connecter
                             </Link>
                         </p>
-                    </div>
-                </form>
-            </div>
-        </div>
+                    </motion.div>
+                </motion.form>
+            </motion.div>
+        </motion.div>
     );
 };
 

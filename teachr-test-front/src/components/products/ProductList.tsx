@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, deleteProduct } from '../../store/productSlice';
+import { fetchProducts, deleteProduct, updateProduct, createProduct } from '../../store/productSlice';
 import { fetchCategories } from '../../store/categorySlice';
 import { Product, Category } from '../../types';
 import { AppDispatch, RootState } from '../../store/store';
+import { useNotification } from '../../contexts/NotificationContext';
 import ProductForm from './ProductForm';
 
 const ProductList: React.FC = () => {
@@ -15,6 +16,7 @@ const ProductList: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -43,8 +45,10 @@ const ProductList: React.FC = () => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
             try {
                 await dispatch(deleteProduct(id)).unwrap();
-            } catch (error) {
-                console.error('Erreur lors de la suppression:', error);
+                showNotification('Le produit a été supprimé avec succès', 'success');
+            } catch (error: any) {
+                const errorMessage = error?.message || 'Une erreur est survenue lors de la suppression';
+                showNotification(errorMessage, 'error');
             }
         }
     };
@@ -52,6 +56,22 @@ const ProductList: React.FC = () => {
     const handleFormClose = () => {
         setShowForm(false);
         setSelectedProduct(undefined);
+    };
+
+    const handleFormSubmit = async (productData: Partial<Product>) => {
+        try {
+            if (selectedProduct) {
+                await dispatch(updateProduct({ id: selectedProduct.id, data: productData })).unwrap();
+                showNotification('Le produit a été modifié avec succès', 'success');
+            } else {
+                await dispatch(createProduct(productData)).unwrap();
+                showNotification('Le produit a été créé avec succès', 'success');
+            }
+            handleFormClose();
+        } catch (error: any) {
+            const errorMessage = error?.message || 'Une erreur est survenue';
+            showNotification(errorMessage, 'error');
+        }
     };
 
     if (loading) return (
@@ -176,6 +196,7 @@ const ProductList: React.FC = () => {
                 <ProductForm
                     product={selectedProduct}
                     onClose={handleFormClose}
+                    onSubmit={handleFormSubmit}
                     categories={categories}
                 />
             )}

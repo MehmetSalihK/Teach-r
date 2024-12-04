@@ -1,165 +1,80 @@
-# 🎓 Projet Teach'r - Plateforme d'apprentissage en ligne
+# 🎓 Projet Teach'r
 
 <div align="center">
   <img src="teachr-test-front/public/logo.png" alt="Teach'r Logo" width="200"/>
-  
-  [![Frontend](https://img.shields.io/badge/Frontend-React_18-blue.svg)](teachr-test-front)
-  [![Backend](https://img.shields.io/badge/Backend-Symfony_6.2-black.svg)](teachr-test-api)
-  [![Status](https://img.shields.io/badge/Status-En_développement-yellow.svg)]()
 </div>
 
-## 📋 Vue d'ensemble
+## 📋 C'est quoi Teach'r ?
 
-Teach'r est une plateforme éducative moderne visant à faciliter l'apprentissage en ligne. Le projet est divisé en deux parties principales :
+Teach'r est une plateforme d'apprentissage en ligne qui permet aux professeurs de créer des cours et aux étudiants de les suivre facilement. Le projet est divisé en deux parties :
 
-### 1. Frontend (teachr-test-front)
-- Interface utilisateur moderne avec React et TypeScript
-- Design responsive avec Tailwind CSS
-- Thème sombre élégant
-- Animations fluides avec Framer Motion
-- Gestion d'état avec Redux Toolkit
+### 📱 Application Frontend (teachr-test-front)
 
-### 2. Backend (teachr-test-api)
-- API RESTful avec Symfony 6.2
-- Authentification JWT
-- Base de données MySQL
-- Documentation API avec Swagger/OpenAPI
-- Tests unitaires avec PHPUnit
+L'interface utilisateur que les gens utilisent directement. Elle permet de :
+- Se connecter et créer un compte
+- Voir tous les cours disponibles
+- Créer et modifier des cours (pour les profs)
+- Suivre sa progression dans les cours
+- Communiquer avec les profs et autres étudiants
+- Accéder à son tableau de bord personnel
+- Utiliser le site sur téléphone et ordinateur
+- Passer en mode sombre pour plus de confort
 
-## 🎯 Objectif du projet
+Technologies principales :
+- React pour l'interface
+- TypeScript pour un code plus sûr
+- Tailwind CSS pour le design
+- Redux pour gérer les données
 
-Ce projet a été développé comme une démonstration technique d'une plateforme d'apprentissage en ligne moderne. Il met l'accent sur :
+### 💻 Application Backend (teachr-test-api)
 
-- Une expérience utilisateur fluide et intuitive
-- Une architecture moderne et scalable
-- Des pratiques de développement professionnelles
-- Une sécurité robuste
-- Une documentation claire et complète
+Le serveur qui gère toutes les données. Il s'occupe de :
+- Stocker les informations des utilisateurs
+- Sauvegarder tous les cours
+- Gérer qui peut accéder à quoi
+- Protéger les données des utilisateurs
+- Envoyer les bonnes informations à l'interface
 
-## 🛠 Architecture technique
+Technologies principales :
+- Symfony pour le serveur
+- MySQL pour la base de données
+- JWT pour la sécurité
+- API REST pour communiquer avec le frontend
 
-### Frontend
-- **Framework:** React 18 avec TypeScript
-- **Styling:** Tailwind CSS
-- **State Management:** Redux Toolkit
-- **Routing:** React Router 6
-- **Animations:** Framer Motion
-- **HTTP Client:** Axios
+## 🌟 Fonctionnalités principales
 
-### Backend
-- **Framework:** Symfony 6.2
-- **Database:** MySQL 8.0
-- **Authentication:** JWT
-- **ORM:** Doctrine
-- **API Documentation:** OpenAPI/Swagger
+### Pour les professeurs
+- Créer des cours avec texte, images et vidéos
+- Organiser le contenu en chapitres
+- Voir qui suit leurs cours
+- Suivre la progression des étudiants
+- Communiquer avec les étudiants
+- Voir les statistiques de leurs cours
 
-## 🔐 Système d'authentification
+### Pour les étudiants
+- S'inscrire aux cours
+- Suivre les cours à leur rythme
+- Faire des exercices et quiz
+- Prendre des notes
+- Discuter avec les profs
+- Suivre leur progression
 
-Le système d'authentification comprend :
+## 🚀 Ce qu'on peut améliorer
 
-- Inscription utilisateur
-- Connexion sécurisée
-- Récupération de mot de passe
-- Gestion des tokens JWT
-- Validation des formulaires
-- Messages d'erreur personnalisés
+On peut ajouter plein de nouvelles fonctionnalités pour rendre Teach'r encore plus pratique :
+- Un système de notifications pour être au courant des nouveautés
+- Pouvoir utiliser les cours même sans internet
+- Faire des cours en direct avec de la vidéo
+- Avoir plus de statistiques sur les cours
+- Pouvoir télécharger les cours en PDF
+- Une application mobile pour apprendre partout
 
-## 🚀 Installation
+## 📞 Contact
 
-1. **Cloner les repositories**
-   ```bash
-   git clone https://github.com/MehmetSalihK/Teach-r.git
-   git clone git@github.com:MehmetSalihK/Teach-r.git
-   ```
+Mehmet Salih Kuscu - salihketur60@gmail.com
 
-2. **Installer le frontend**
-   ```bash
-   cd teachr-test-front
-   npm install
-   cp .env.example .env
-   ```
-
-3. **Installer le backend**
-   ```bash
-   cd teachr-test-api
-   composer install
-   cp .env .env.local
-   ```
-
-4. **Configuration de la base de données**
-   ```bash
-   php bin/console doctrine:database:create
-   php bin/console doctrine:migrations:migrate
-   ```
-
-5. **Lancer les serveurs**
-   ```bash
-   # Terminal 1 (Frontend)
-   cd teachr-test-front
-   npm run dev
-
-   # Terminal 2 (Backend)
-   cd teachr-test-api
-   symfony server:start
-   ```
-
-## ⚠️ État actuel du projet
-
-Le projet est actuellement en phase de développement avec plusieurs fonctionnalités en cours d'implémentation.
-
-### Fonctionnalités implémentées
-- ✅ Système d'authentification de base
-- ✅ Interface utilisateur moderne
-- ✅ API RESTful
-- ✅ Documentation de base
-
-### En cours de développement
-- 🔄 Tests automatisés
-- 🔄 Gestion avancée des erreurs
-- 🔄 Optimisation des performances
-- 🔄 Documentation complète
-
-### Prévus pour le futur
-- 📅 Système de cours
-- 📅 Profils utilisateurs
-- 📅 Tableau de bord
-- 📅 Système de notifications
-
-## 🐛 Bugs connus
-
-- Interface utilisateur :
-  - Certains messages d'erreur manquent de précision
-  - Problèmes de rafraîchissement des tokens
-  - Quelques problèmes d'affichage sur certains navigateurs
-
-- Backend :
-  - Validations incomplètes
-  - Gestion des refresh tokens à optimiser
-  - Documentation API à compléter
-
-## 📚 Documentation
-
-- [Documentation Frontend](teachr-test-front/README.md)
-- [Documentation Backend](teachr-test-api/README.md)
-- [API Documentation](http://localhost:8000/api/docs)
-
-## 👥 Contribution
-
-Les contributions sont les bienvenues ! Voir les fichiers README.md respectifs des repositories frontend et backend pour les guides de contribution détaillés.
-
-## 📧 Contact
-
-- **Développeur:** Mehmet Salih Kuscu
-- **Email:** salihketur60@gmail.com
-- **GitHub:** [MehmetSalihK](https://github.com/MehmetSalihK)
-- **LinkedIn:** [mehmetsalihk](https://www.linkedin.com/in/mehmetsalihk)
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
----
+Lien du projet: [https://github.com/MehmetSalihK/Teach-r](https://github.com/MehmetSalihK/Teach-r)
 
 <div align="center">
-  Développé par Mehmet Salih Kuscu
+  <p>Développé avec ❤️ par Mehmet Salih Kuscu</p>
 </div>

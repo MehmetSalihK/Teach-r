@@ -57,8 +57,7 @@ export const register = async (credentials: RegisterCredentials): Promise<AuthRe
     try {
         const { data } = await api.post<AuthResponse>('/register', {
             email: credentials.email,
-            password: credentials.password,
-            username: credentials.username
+            password: credentials.password
         });
         
         if (data.token) {
@@ -134,8 +133,14 @@ export const getCategory = async (id: number): Promise<Category> => {
 };
 
 export const createCategory = async (category: Partial<Category>): Promise<Category> => {
-    const { data } = await api.post('/categories', category);
-    return data;
+    try {
+        const { data } = await api.post('/categories', category);
+        return data;
+    } catch (error: any) {
+        console.error('Create category error:', error.response?.data);
+        const errorMessage = error.response?.data?.message || 'Une erreur est survenue lors de la création de la catégorie';
+        throw new Error(errorMessage);
+    }
 };
 
 export const updateCategory = async (id: number, category: Partial<Category>): Promise<Category> => {
@@ -144,5 +149,12 @@ export const updateCategory = async (id: number, category: Partial<Category>): P
 };
 
 export const deleteCategory = async (id: number): Promise<void> => {
-    await api.delete(`/categories/${id}`);
+    try {
+        await api.delete(`/categories/${id}`);
+    } catch (error: any) {
+        if (error.response?.status === 400) {
+            throw new Error('Cette catégorie contient des produits. Veuillez d\'abord supprimer ou déplacer les produits associés avant de supprimer la catégorie.');
+        }
+        throw new Error('Une erreur est survenue lors de la suppression de la catégorie');
+    }
 };

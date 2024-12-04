@@ -105,12 +105,26 @@ class CategoryController extends AbstractController
         $category = $this->categoryRepository->find($id);
         
         if (!$category) {
-            return new JsonResponse(['message' => 'Category not found'], Response::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Catégorie non trouvée'], Response::HTTP_NOT_FOUND);
         }
 
-        $this->entityManager->remove($category);
-        $this->entityManager->flush();
+        // Vérifier si la catégorie a des produits associés
+        if (!$category->getProducts()->isEmpty()) {
+            return new JsonResponse(
+                ['message' => 'Impossible de supprimer cette catégorie car elle contient des produits. Veuillez d\'abord supprimer ou déplacer les produits associés.'],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        try {
+            $this->entityManager->remove($category);
+            $this->entityManager->flush();
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return new JsonResponse(
+                ['message' => 'Une erreur est survenue lors de la suppression de la catégorie'],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

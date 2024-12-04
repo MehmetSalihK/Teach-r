@@ -9,25 +9,28 @@ import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-900">
-        <Layout>
-          <ToastContainer position="top-right" autoClose={5000} />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/products" element={<ProductList />} />
-            <Route path="/categories" element={<CategoryList />} />
-            <Route path="/" element={<Navigate to="/products" />} />
-          </Routes>
-        </Layout>
-      </div>
-    </Router>
+    <NotificationProvider>
+      <Router>
+        <div className="min-h-screen bg-gray-900">
+          <Layout>
+            <ToastContainer position="top-right" autoClose={5000} />
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/products" element={<ProductList />} />
+              <Route path="/categories" element={<CategoryList />} />
+              <Route path="/" element={<Navigate to="/products" />} />
+            </Routes>
+          </Layout>
+        </div>
+      </Router>
+    </NotificationProvider>
   );
 }
 

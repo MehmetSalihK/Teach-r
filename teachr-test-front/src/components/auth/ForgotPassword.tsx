@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMail, FiRefreshCw } from 'react-icons/fi';
 import { forgotPassword } from '../../services/api';
+import { motion } from 'framer-motion';
 
 const ForgotPassword: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -25,40 +26,91 @@ const ForgotPassword: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#1a1d24] flex flex-col items-center justify-center p-4">
-            <div className="w-full max-w-md bg-[#22252d] rounded-3xl p-8 shadow-xl">
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-[#7c3aed] mb-2">Teach'r</h1>
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                        <FiRefreshCw className="w-6 h-6 text-white" />
-                        <h2 className="text-2xl font-semibold text-white">Réinitialiser le mot de passe</h2>
-                    </div>
-                    <p className="text-gray-400 text-sm">
-                        Entrez votre adresse email pour recevoir un lien de réinitialisation
-                    </p>
-                </div>
+        <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            className="min-h-screen bg-[#1a1d24] flex flex-col items-center justify-center p-4"
+        >
+            <motion.div 
+                initial={{ y: 20, opacity: 0 }} 
+                animate={{ y: 0, opacity: 1 }} 
+                transition={{ delay: 0.2 }}
+                className="w-full max-w-md bg-[#22252d] rounded-3xl p-8 shadow-xl"
+            >
+                <motion.div 
+                    initial={{ y: 20, opacity: 0 }} 
+                    animate={{ y: 0, opacity: 1 }} 
+                    transition={{ delay: 0.3 }}
+                    className="text-center mb-8"
+                >
+                    <motion.h1 
+                        initial={{ scale: 0.9 }} 
+                        animate={{ scale: 1 }} 
+                        transition={{ delay: 0.4 }}
+                        className="text-4xl font-bold text-[#7c3aed] mb-2"
+                    >
+                        Teach'r
+                    </motion.h1>
+                    <motion.h2 
+                        initial={{ y: 20, opacity: 0 }} 
+                        animate={{ y: 0, opacity: 1 }} 
+                        transition={{ delay: 0.5 }}
+                        className="text-2xl font-semibold text-white mb-2"
+                    >
+                        Mot de passe oublié
+                    </motion.h2>
+                    <motion.p 
+                        initial={{ y: 20, opacity: 0 }} 
+                        animate={{ y: 0, opacity: 1 }} 
+                        transition={{ delay: 0.6 }}
+                        className="text-gray-400 text-sm"
+                    >
+                        Entrez votre email pour réinitialiser votre mot de passe
+                    </motion.p>
+                </motion.div>
 
                 {success ? (
-                    <div className="bg-[#2a2d35] p-6 rounded-xl text-center">
-                        <p className="text-green-400 mb-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="text-center"
+                    >
+                        <div className="mb-4 p-4 bg-green-500 bg-opacity-10 border border-green-500 text-green-500 rounded-xl">
                             Un email de réinitialisation a été envoyé à votre adresse email.
-                        </p>
-                        <Link
+                        </div>
+                        <Link 
                             to="/login"
-                            className="text-[#7c3aed] hover:text-[#9461ff] font-medium"
+                            className="text-[#7c3aed] hover:text-[#9461ff] transition-colors"
                         >
                             Retour à la connexion
                         </Link>
-                    </div>
+                    </motion.div>
                 ) : (
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <motion.form 
+                        initial={{ y: 20, opacity: 0 }} 
+                        animate={{ y: 0, opacity: 1 }} 
+                        transition={{ delay: 0.7 }}
+                        onSubmit={handleSubmit} 
+                        className="space-y-6"
+                    >
                         {error && (
-                            <div className="p-4 bg-[#2a2d35] rounded-xl text-red-400 text-sm">
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="p-4 bg-[#2a2d35] rounded-xl text-red-400 text-sm"
+                            >
                                 {error}
-                            </div>
+                            </motion.div>
                         )}
 
-                        <div>
+                        <motion.div
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.8 }}
+                        >
                             <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
                                 Email
                             </label>
@@ -67,46 +119,48 @@ const ForgotPassword: React.FC = () => {
                                     <FiMail className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
-                                    id="email"
-                                    name="email"
                                     type="email"
-                                    autoComplete="email"
-                                    required
+                                    id="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="block w-full pl-10 pr-3 py-3 bg-[#2a2d35] border-0 text-white rounded-xl focus:ring-2 focus:ring-[#7c3aed] placeholder-gray-400 text-sm"
                                     placeholder="votreemail@exemple.com"
+                                    required
                                 />
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full flex justify-center py-3 px-4 text-sm font-medium rounded-xl text-white bg-[#7c3aed] hover:bg-[#6d31e0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3aed] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                            >
-                                {loading ? (
-                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                ) : "Réinitialiser le mot de passe"}
-                            </button>
-                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="submit"
+                            disabled={loading}
+                            className="w-full flex justify-center py-3 px-4 text-sm font-medium rounded-xl text-white bg-[#7c3aed] hover:bg-[#6d31e0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7c3aed] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                        >
+                            {loading ? (
+                                <FiRefreshCw className="h-5 w-5 animate-spin" />
+                            ) : (
+                                "Réinitialiser le mot de passe"
+                            )}
+                        </motion.button>
 
-                        <div className="text-center mt-6">
-                            <Link
-                                to="/login"
-                                className="text-[#7c3aed] hover:text-[#9461ff] font-medium"
+                        <motion.div 
+                            initial={{ opacity: 0 }} 
+                            animate={{ opacity: 1 }} 
+                            transition={{ delay: 0.9 }}
+                            className="text-center mt-6"
+                        >
+                            <Link 
+                                to="/login" 
+                                className="text-[#7c3aed] hover:text-[#9461ff] transition-colors"
                             >
                                 Retour à la connexion
                             </Link>
-                        </div>
-                    </form>
+                        </motion.div>
+                    </motion.form>
                 )}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 };
 

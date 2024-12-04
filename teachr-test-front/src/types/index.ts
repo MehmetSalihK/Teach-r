@@ -61,6 +61,7 @@ export interface RegisterCredentials {
     email: string;
     password: string;
     confirmPassword: string;
+    username?: string; // Optional username
 }
 
 export interface AuthResponse {
